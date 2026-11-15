@@ -54,7 +54,9 @@ jobs:
 
       - name: Dump GitHub pull request context
         id: github_pull_request_step
-        run: echo '${{ toJSON(github.event.pull_request) }}'
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github.event.pull_request) }}
+        run: printf '%s\n' "$GITHUB_CONTEXT"
 
       - name: Check if the PR body is containing the required closing message
         if: contains(github.event.pull_request.body, 'Closes')
